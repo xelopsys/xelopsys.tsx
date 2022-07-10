@@ -1,9 +1,7 @@
 export const isOpenedReducer = (state: boolean, action: any) => {
-	switch (action) {
-		case "open":
-			return true;
-		case "close":
-			return false;
+	switch (action.type) {
+		case "TOGGLE":
+			return action.payload;
 		default:
 			return state;
 	}

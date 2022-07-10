@@ -1,4 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, {
+	useState,
+	useRef,
+	useReducer,
+	useEffect,
+	KeyboardEvent,
+} from "react";
 import { useRouter } from "next/router";
 import { routes } from "./routes";
 import { BiCommand } from "react-icons/bi";
@@ -6,9 +12,7 @@ import { IoMdClose } from "react-icons/io";
 
 export function Menu() {
 	const websiteName = "xelopsys.uz";
-
 	const router = useRouter();
-	const [isCleared, setIsCleared] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
 	const inputValue = useRef<any>("");
 	const [isEntered, setIsEntered] = useState(false);
@@ -18,18 +22,15 @@ export function Menu() {
 			path: string;
 		}[]
 	>(routes);
-	console.log(items);
 	const [isValid, setIsValid] = useState(false);
 
-	// useEffect(() => {
-	// 	if (isOpen) {
-	// 		inputValue.current.focus();
-	// 	}
-	// }, [isOpen]);
-
-	const handleClick = (e: any) => {
+	const handleOpen = (e: any) => {
 		e.preventDefault();
-		setIsOpen(!isOpen);
+		setIsOpen(true);
+	};
+	const handleClose = (e: any) => {
+		e.preventDefault();
+		setIsOpen(false);
 	};
 	useEffect(() => {
 		if (isOpen) {
@@ -37,19 +38,17 @@ export function Menu() {
 		}
 	});
 
-	// const handleInputChange = (e: any) => {
-	// 	setItems(e.target.value);
-	// };
-
 	const handleInputKeyDown = (e: any) => {
 		if (e.key === "Enter") {
 			if (e.target.value === "help") {
 				console.log("qwdqwd");
 				setIsEntered(true);
-				setIsCleared(false);
 				setIsValid(false);
 			} else if (e.target.value === "clear") {
 				setIsEntered(false);
+				setIsValid(false);
+			} else if (e.target.value === "quit") {
+				setIsOpen(false);
 				setIsValid(false);
 			} else {
 				setIsValid(true);
@@ -63,46 +62,18 @@ export function Menu() {
 		}
 	};
 
-	useEffect(() => {
-		if (isCleared === true) {
-			setItems([]);
-		}
-		if (isCleared === false) {
-			setItems(routes);
-		}
-	}, [isCleared]);
-
-	const handleClear = () => {
-		setIsCleared(true);
-	};
-
-	// const handleRemove = (index: number) => {
-	// 	setSelectedItems(
-	// 		selectedItems.filter((item: string, i: number) => i !== index)
-	// 	);
-	// };
-
-	const handleToggle = () => {
-		setIsOpen(!isOpen);
-	};
-
-	const handleKeyDown = (e: any) => {
-		if (e.key === "Escape") {
-			setIsOpen(false);
-		}
-	};
 	return (
 		<div className="w-full h-full flex flex-col justify-center items-end ">
 			{isOpen ? (
 				<button
-					onClick={handleClick}
+					onClick={handleClose}
 					className="bg-[#090000] transition ease-in-out w-[72px] h-[72px] rounded-lg flex flex-row justify-center items-center"
 				>
 					<IoMdClose className="text-white  w-9 h-9" />
 				</button>
 			) : (
 				<button
-					onClick={handleClick}
+					onClick={handleOpen}
 					className="bg-[#090000] transition ease-in-out w-[72px] h-[72px] rounded-lg flex flex-row justify-center items-center"
 				>
 					<BiCommand className="text-white w-8 h-8" />
@@ -110,8 +81,14 @@ export function Menu() {
 			)}
 
 			<div className="w-full h-full bg-black rounded-xl mt-[29px]">
+				{/* glass effect background */}
 				{isOpen && (
-					<div className="w-[80vw] h-[70vh]  border rounded-xl border-[#EB4747] flex flex-col justify-start items-center pt-[33px] pb-[33px] pl-[26px] pr-[44px]">
+					<div className="fixed top-0 left-0 right-auto   w-[100vw] h-[100vh] -z-10 backdrop-blur-md"></div>
+				)}
+				{/* glass effect background */}
+
+				{isOpen && (
+					<div className="w-[80vw] h-[70vh]  border rounded-xl  border-[#EB4747] flex flex-col justify-start items-center pt-[33px] pb-[33px] pl-[26px] pr-[44px]">
 						<p className="text-white w-full ">
 							Welcome to {websiteName}, the friendly interactive shell
 							<br />
@@ -146,7 +123,7 @@ export function Menu() {
 										}
 									)}
 								</ul>
-								<button onClick={handleClear}>Clear</button>
+								{/* <button onClick={handleClear}>Clear</button> */}
 							</div>
 						)}
 						{isValid && (
