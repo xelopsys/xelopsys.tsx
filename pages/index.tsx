@@ -3,7 +3,7 @@ import React, { useReducer } from "react";
 import Head from "next/head";
 import { Menu } from "../components/menu/Menu";
 import ReactTypingEffect from "react-typing-effect";
-// import { isOpenedReducer } from "../context/isOpenedReducer";
+import { isOpenedReducer } from "../context/isOpenedReducer";
 const Home: NextPage = () => {
 	// const [state, dispatch] = useReducer(isOpenedReducer, false);
 	// const handleClick = () => {
