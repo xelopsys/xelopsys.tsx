@@ -3,7 +3,7 @@ import React, { useReducer } from "react";
 import Head from "next/head";
 import { Menu } from "../components/menu/Menu";
 import ReactTypingEffect from "react-typing-effect";
-import { isOpenedReducer } from "../context/isOpenedReducer";
+// import { isOpenedReducer } from "../context/isOpenedReducer";
 const Home: NextPage = () => {
 	// const [state, dispatch] = useReducer(isOpenedReducer, false);
 	// const handleClick = () => {
@@ -22,6 +22,10 @@ const Home: NextPage = () => {
 			<Head>
 				<title>Dashboard</title>
 				<meta name="description" content="Xelopsys main page" />
+				<meta name="keywords" content="xelopsys, XELOPSYS. Xelopsys" />
+				<meta name="author" content="Xelopsys" />
+				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+				<link rel="icon" href="/logo.ico" />
 			</Head>
 			{/*  background  */}
 
