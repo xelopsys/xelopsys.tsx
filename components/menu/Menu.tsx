@@ -83,7 +83,7 @@ export function Menu() {
 			<div className="w-full h-full bg-black rounded-xl mt-[29px]">
 				{/* glass effect background */}
 				{isOpen && (
-					<div className="fixed top-0 left-0 right-auto   w-[100vw] h-[100vh] -z-10 backdrop-blur-md"></div>
+					<div className="fixed top-0 left-0  w-[100vw] h-[100vh] -z-10 backdrop-blur-md"></div>
 				)}
 				{/* glass effect background */}
 
