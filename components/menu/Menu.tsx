@@ -16,13 +16,18 @@ export function Menu() {
 	const [isOpen, setIsOpen] = useState(false);
 	const inputValue = useRef<any>("");
 	const [isEntered, setIsEntered] = useState(false);
-	const [items, setItems] = useState<
+	const [items] = useState<
 		{
 			name: string;
 			path: string;
 		}[]
 	>(routes);
 	const [isValid, setIsValid] = useState(false);
+	useEffect(() => {
+		if (isOpen) {
+			inputValue.current.focus();
+		}
+	});
 
 	const handleOpen = (e: any) => {
 		e.preventDefault();
@@ -32,11 +37,6 @@ export function Menu() {
 		e.preventDefault();
 		setIsOpen(false);
 	};
-	useEffect(() => {
-		if (isOpen) {
-			inputValue.current.focus();
-		}
-	});
 
 	const handleInputKeyDown = (e: any) => {
 		if (e.key === "Enter") {
@@ -56,6 +56,7 @@ export function Menu() {
 			items.map((item: any) => {
 				if (item.name === e.target.value) {
 					router.push(item.path);
+					setIsValid(false);
 				}
 			});
 			inputValue.current.value = "";
@@ -64,6 +65,8 @@ export function Menu() {
 
 	return (
 		<div className="w-full h-full flex flex-col justify-center items-end ">
+			{/* buttons for opening and closing  */}
+
 			{isOpen ? (
 				<button
 					onClick={handleClose}
@@ -79,7 +82,7 @@ export function Menu() {
 					<BiCommand className="text-white w-8 h-8" />
 				</button>
 			)}
-
+			{/* input for entering commands */}
 			<div className="w-full h-full bg-black rounded-xl mt-[29px]">
 				{/* glass effect background */}
 				{isOpen && (
@@ -88,25 +91,30 @@ export function Menu() {
 				{/* glass effect background */}
 
 				{isOpen && (
-					<div className="w-[80vw] h-[70vh]  border rounded-xl  border-[#EB4747] flex flex-col justify-start items-center pt-[33px] pb-[33px] pl-[26px] pr-[44px]">
-						<p className="text-white w-full ">
+					<div
+						className="w-[80vw] h-[70vh]  border rounded-xl  border-[#EB4747] flex flex-col justify-start items-center pt-[33px] pb-[33px] px-3 lg:pl-[26px] lg:pr-[44px]"
+						onClick={() => {
+							inputValue.current.focus();
+						}}
+					>
+						<p className="text-white w-full text-xs lg:text-xl ">
 							Welcome to {websiteName}, the friendly interactive shell
 							<br />
 							Type <span className="text-[#29FF32]">help</span> for instructions
 							on how to use menu
 						</p>
-						<p className="text-white w-full mt-5">
+						<p className="text-white text-xs lg:text-xl w-full mt-5">
 							<span className="text-[#EB4747]">root</span> at{" "}
 							<span className="text-[#3C4FFF]">{websiteName}</span> in{" "}
 							<span className="text-[#EB4747]">⌁</span>
 						</p>
 						<div className="w-full h-auto flex flex-row justify-start items-center">
-							<span className="text-[#3C4FFF]">λ</span>
+							<span className="text-[#3C4FFF] text-xs lg:text-xl">λ</span>
 							<input
 								ref={inputValue}
 								type="text"
 								onKeyPress={handleInputKeyDown}
-								className=" border-none outline-none w-full inline px-2 text-[#29FF32] bg-transparent"
+								className=" border-none outline-none w-full inline px-2 text-xs lg:text-xl text-[#29FF32] bg-transparent"
 								// onChange={handleInputChange}
 							/>
 						</div>
@@ -116,9 +124,16 @@ export function Menu() {
 									{items.map(
 										(name: { name: string; path: string }, index: number) => {
 											return (
-												<p key={index} className="text-[#3C4FFF]">
-													{name.name}
-												</p>
+												<li
+													key={index}
+													className="flex flex-row justify-start items-center"
+												>
+													{" "}
+													<span className="text-[#EB4747]"> - </span>{" "}
+													<p className="text-[#3C4FFF] text-xs lg:text-xl ml-[2px]">
+														{name.name}
+													</p>
+												</li>
 											);
 										}
 									)}
