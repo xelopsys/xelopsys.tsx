@@ -1,9 +1,9 @@
 import React from "react";
 
-export function Sidebar() {
+export default function About() {
 	return (
 		<div>
-			<h1>sidebar</h1>
+			<h1>about</h1>
 		</div>
 	);
 }
