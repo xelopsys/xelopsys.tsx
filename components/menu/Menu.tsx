@@ -19,6 +19,7 @@ export function Menu() {
 		}[]
 	>(routes);
 	console.log(items);
+	const [isValid, setIsValid] = useState(false);
 
 	// useEffect(() => {
 	// 	if (isOpen) {
@@ -46,9 +47,12 @@ export function Menu() {
 				console.log("qwdqwd");
 				setIsEntered(true);
 				setIsCleared(false);
-			}
-			if (e.target.value === "clear") {
+				setIsValid(false);
+			} else if (e.target.value === "clear") {
 				setIsEntered(false);
+				setIsValid(false);
+			} else {
+				setIsValid(true);
 			}
 			items.map((item: any) => {
 				if (item.name === e.target.value) {
@@ -119,23 +123,41 @@ export function Menu() {
 							<span className="text-[#3C4FFF]">{websiteName}</span> in{" "}
 							<span className="text-[#EB4747]">⌁</span>
 						</p>
-						<input
-							ref={inputValue}
-							type="text"
-							onKeyPress={handleInputKeyDown}
-							className="border-none outline-none w-full p-3 text-white bg-transparent"
-							// onChange={handleInputChange}
-						/>
-						{isEntered && (
+						<div className="w-full h-auto flex flex-row justify-start items-center">
+							<span className="text-[#3C4FFF]">λ</span>
+							<input
+								ref={inputValue}
+								type="text"
+								onKeyPress={handleInputKeyDown}
+								className=" border-none outline-none w-full inline px-2 text-[#29FF32] bg-transparent"
+								// onChange={handleInputChange}
+							/>
+						</div>
+						{isEntered && !isValid && (
 							<div className="text-white w-full h-full">
 								<ul>
 									{items.map(
 										(name: { name: string; path: string }, index: number) => {
-											return <p key={index}>{name.name}</p>;
+											return (
+												<p key={index} className="text-[#3C4FFF]">
+													{name.name}
+												</p>
+											);
 										}
 									)}
 								</ul>
 								<button onClick={handleClear}>Clear</button>
+							</div>
+						)}
+						{isValid && (
+							<div className="text-white w-full h-full mt-8">
+								<p>
+									Entered command is{" "}
+									<span className="text-[#EB4747]">invalid</span>.
+									<br />
+									Please type <span className="text-[#29FF32]">help</span> for
+									commands
+								</p>
 							</div>
 						)}
 					</div>
